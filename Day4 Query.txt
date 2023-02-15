@@ -1,0 +1,45 @@
+create table student(id int primary  key identity,name varchar(20),branchid int,gender varchar(20),branch varchar(20))
+insert into student values('Lakshmi',2,'female','It'),('Mouni',1,'female','cse'),('Mani',3,'female','cse'),('Kusuma',2,'female','ece'),('Ravi',3,'male','mech')
+select *from student
+drop table student
+1.By branchid
+create function branchidfun(@bid int)
+returns table
+as 
+return(select * from student where branchid=@bid)
+select * from dbo.branchidfun(2)
+2.By gender
+create function genderfun(@gender varchar(10))
+returns table
+as 
+return(select * from student where gender=@gender)
+select * from dbo.genderfun('male')
+drop function genderfun
+
+3.trigger
+create table tablemplyee(id int,name varchar(40),gender varchar(40),salary int,deptid int )
+insert into tablemplyee values(1,'pranav','male',90000,1),(2,'john','male',9000,3),(3,'maharshi','male',30000,2),(4,'kusuma','female',45000,1),(5,'joshna','female',90000,3)
+select * from tablemplyee
+drop table tablemplyee
+create table tablemplyeeaudit(id int identity(1,1) primary key,auditdata nvarchar(1000) )
+create trigger tr_tblemployee_fordelete
+on tablemplyee
+for delete
+as
+begin 
+declare @id int
+select @id=id from deleted
+delete from tablemplyee  where id=4
+insert into tablemplyeeaudit values ('new employee'+cast(@id as varchar (10))+'is insrted'+cast(getdate() as varchar(30)))
+end
+select *from tablemplyee
+select *from tablemplyeeaudit
+insert into tablemplyee values (4,'pramela','female',894798,4)
+delete from tablemplyee  where id=3
+drop trigger tr_tblemployee_fordelete
+4.subquery
+create table tblproducts(id int primary key identity,name varchar(20),decsrption varchar(100)) 
+create table prodcutssales(id int primary key identity,productid int foreign key references tblproducts(id),unitprice int,quantitysoled int)
+insert into tblproducts values('telivision','it is one of the good one'),('laptop','this one is updated version'),('desktop','lenovo is the best one')
+insert into prodcutssales values(3,450,5),(2,250,7),(3,450,4),(3,450,9)
+select * from tblproducts where id in(select Distinct productid from prodcutssales where quantitysoled =0)
