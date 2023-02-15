@@ -1,0 +1,49 @@
+Day-1 Sql queries
+Create table customer(
+cutomer_number int primary key,
+firstname varchar(50) Not Null,
+middlename varchar(20),
+lastname varchar(30) Not Null,
+customer_city varchar(10) UNIQUE,
+occupation varchar(20),
+customer_date_of_birth date);
+
+
+INSERT INTO customer VALUES (1, 'lakshmi', 'sravani', 'kasam', 'delhi', 'student', '10-04-2006');
+INSERT INTO customer VALUES (2, 'Prashanth', 'gupta', 'chennai', 'student', '13-08-1996');
+INSERT INTO customer VALUES (3, 'naga', 'Null', 'mani', 'mumbai', 'business', '16-04-1980');
+INSERT INTO customer VALUES (4, 'govind', 'raju', 'venkat', 'hyderabad', 'business', '03-10-1975');
+INSERT INTO customer VALUES (5, 'shiva', 'ganesh', 'mohan', 'pune', 'student', '10-04-2006');
+INSERT INTO customer VALUES (6, 'latha', 'rama', 'priya', 'bangalore', 'business', '11-12-1972');
+INSERT INTO customer VALUES (7, 'venkat', 'vara', 'prasad', 'jaipur', 'business', '13-09-1974');
+INSERT INTO customer VALUES (8, 'loknadh', 'gupta', 'kumar', 'visakhapatnam', 'student', '20-02-2001');
+INSERT INTO customer VALUES (9, 'shreya', 'Null', 'pasumarthi', 'gujarat', 'home maker', '06-06-1975');
+INSERT INTO customer VALUES (10, 'pramela', 'vasantha', 'kumari',  'agra', 'student', '30-08-1999');
+
+
+
+SELECT *from customer
+
+
+1.Displaying no of customers belongs to each city
+select customer_city,count(CUSTOMER_CITY)from customer group by customer_city
+
+
+2.Displaying all city names from customer table without duplicate values
+select distinct(customer_city)from customer
+
+3.Displaying no.of customers from different occupations
+select occuption,count(cutomer_number) as 'count' from customer group by occuption
+select occuption,count(occuption) as 'count' from customer group by occuption
+
+
+4.Displaying customer details with the ascending order based on firstname
+select *from customer order by firstname
+
+
+5.Displaying the data in descnding order based on ovvuption and display the firstname in ascending of each occuption
+select * from customer order by occuption desc,firstname
+
+6.Displaying customers who has middlename as null
+select *from customer where middlename is null
+
